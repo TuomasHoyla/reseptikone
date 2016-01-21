@@ -1,2 +1,2 @@
 # reseptikone
-Typeahead reseptihaku
+using http://twitter.github.io/typeahead.js/
