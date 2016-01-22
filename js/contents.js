@@ -1,25 +1,48 @@
-$( document ).ready(function() {
-    /*
-    var states = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California',
-  'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii',
-  'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana',
-  'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota',
-  'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire',
-  'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota',
-  'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island',
-  'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont',
-  'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'
-];
+$(function() {
 
-*/
-    
-    var ruokaAineet = ['Hunaja', 'Kaurahiutale', 'Kauraryyni', 'Ohrajauho', 'Ruisjauho', 'vehnäjauho', 'riisi', 'Sokeri', 'Voi', 'Öljy', 'Suola', 'Pippuri', 'Bulgur', 'Maizena-suuruste', 'Bearnaisekastikejauhe', 'Ahven', 'Anjovis', 'Artisokka', 'Appelsiini', 'Aprikoosi', 'Ananas', 'Avokado', 'seitan', 'Peruna', 'tofu', 'Kaali', 'Kyssäkaali', 'Keräkaali', 'Kiinankaali', 'Jauheliha'
+    //TODO: AJAX-back-end query for ruokaAineet & receipes
+    var ruokaAineet = ['Hunaja', 'Kaurahiutale', 'Kauraryyni', 'Ohrajauho', 'Ruisjauho', 'vehnäjauho', 'riisi', 'Sokeri', 'Voi', 'Öljy', 'Suola', 'Pippuri', 'Bulgur', 'Maizena-suuruste', 'Bearnaisekastikejauhe', 'Ahven', 'Anjovis', 'Artisokka', 'Appelsiini', 'Aprikoosi', 'Ananas', 'Avokado', 'seitan', 'Peruna', 'tofu', 'Kaali', 'Kyssäkaali', 'Keräkaali', 'Kiinankaali', 'Jauheliha', 'Palsternakka', 'åuhanjuuri'
     ];
     
-    var receipes = 
-        '{"Resepti": [{"nimi":"Hedelmä-jälkiruoka"}, {"ainekset":["Appelsiini", "Aprikoosi", "Ananas"]}],[{"nimi":"Jauhelihakeitto"}, {"ainekset":["Jauheliha", "Peruna", "Suola"]}]}';
-    //var arr = JSON.parse(pets);
+    var haettavatAineet =[];
     
+    var receipes = '{ "reseptit" : [' +
+'{ "nimi":"Hedelmä-jälkiruoka" , "ainekset":["Appelsiini", "Aprikoosi", "Ananas"] },' +
+'{ "nimi":"Perunavuoka" , "ainekset":["Peruna", "Jauheliha", "maito"] },' +
+'{ "nimi":"Uunivihannekset" , "ainekset":["Peruna", "Palsternakka", "punajuuri"] },' +
+'{ "nimi":"Jauhelihakeitto" , "ainekset":["Jauheliha", "Peruna", "Suola"] } ]}';
+    
+    var obj = $.parseJSON(receipes);
+    
+    
+function haeAineet(ainesLocationInRuokaAineet) {
+    $(obj.reseptit).each(function( index ) {
+        if (($.inArray(ainesLocationInRuokaAineet, obj.reseptit[index].ainekset)) != -1) {
+            $( "#receipes" ).append(obj.reseptit[index].nimi +" " +index);
+        }
+    });
+    
+        //alert(ainesLocationInRuokaAineet);
+        /*
+        $.each( arr, function( index, value ){
+            obj.reseptit[0].ainekset
+        });
+
+
+            
+    //    var ingredientId = $.inArray(addedstate, ruokaAineet);
+        /**FOR-loop:
+        lisää lisätty aines haettavataineet[]-arrayhyn, jossa on haettavat ainekset
+        käy reseptit  läpi (FOR-1), jotka pitävät sisällään ensimmäisen entryn aineista, toisen entryn aineista..
+        JOS Resepti pitää sisällään (inArray) ainesosan, palauta reseptin location receipes[]-arrayssa
+        ja hae receipes-arraysta locationilla reseptit.[location].name
+*/
+    
+    }
+  
+    
+    
+
 var substringMatcher = function(strs) {
   return function findMatches(q, cb) {
     var matches, substringRegex;
@@ -46,34 +69,46 @@ var substringMatcher = function(strs) {
 
 
 $('#the-basics .typeahead').typeahead({
-  hint: true,
-  highlight: true,
-  minLength: 1
+    hint: true,
+    autoselect: true,
+    highlight: true,
+    minLength: 1
 },
 {
   name: 'ruokaAineet',
   source: substringMatcher(ruokaAineet)
 });
     
+    /*
+    $(function(){
+
+$("input[name=name]").val("somename");
+$("input[name=email]").val("323@ds.com");
+$('#aweberform').submit();
+
+});
+*/
+    //var obj = JSON.parse(texti);
+    
+//    $( "#receipes" ).append(texti.employe);
+    
+    
     $(".btn").click(function(){
     var addedstate = $('#datainput').val();
     var ingredientId = $.inArray(addedstate, ruokaAineet);
         
     if (ingredientId != -1) {
-        $( "#content" ).append(ruokaAineet[ingredientId]);
+        $( "#content" ).append(ruokaAineet[ingredientId]+"<br>");
+        haeAineet(ruokaAineet[ingredientId]);
     }
         
     /**
     Eli nokkimisjärjestys on tämä:
         - lisää jokainen lisätty state ingredients[]-listaan
         tee lista ingredientsien pohjalta (#content)-diviin pilsseinä
-        
         Hae raaka-aineet 
     */
         
-    
-    
-    
     
 });
     
