@@ -18,9 +18,21 @@ $(function() {
 function haeAineet(ainesLocationInRuokaAineet) {
     $(obj.reseptit).each(function( index ) {
         if (($.inArray(ainesLocationInRuokaAineet, obj.reseptit[index].ainekset)) != -1) {
-            $( "#receipes" ).append(obj.reseptit[index].nimi +" " +index);
+            $( "#receipes" ).append(obj.reseptit[index].nimi +"<br>");
         }
     });
+    
+    
+    var success = array_a.every(function(v,i) {
+        alert(array_b.indexOf(v) !== -1);
+    });
+    alert(success);
+    
+    /**
+    How to check whether multiple values exist within an Javascript array:
+    var success = array_a.every(function(v,i) {
+    return array_b.indexOf(v) !== -1;
+});
     
         //alert(ainesLocationInRuokaAineet);
         /*
@@ -88,17 +100,15 @@ $('#aweberform').submit();
 
 });
 */
-    //var obj = JSON.parse(texti);
-    
-//    $( "#receipes" ).append(texti.employe);
-    
+
     
     $(".btn").click(function(){
     var addedstate = $('#datainput').val();
     var ingredientId = $.inArray(addedstate, ruokaAineet);
         
     if (ingredientId != -1) {
-        $( "#content" ).append(ruokaAineet[ingredientId]+"<br>");
+        $( "#content" ).append(ruokaAineet[ingredientId]+"<br>"); //Nyt tuplana, parempi ratkaisu olisi että päivittäisi diviä jossa kaikki haetut aineet
+        haettavatAineet.push(ruokaAineet[ingredientId]); 
         haeAineet(ruokaAineet[ingredientId]);
     }
         
