@@ -6,6 +6,8 @@
         <script src="/js/typeahead.bundle.min.js"></script>
         <script src="/js/typeahead.jquery.min.js"></script>
         <script src="/js/contents.js"></script>
+        <script type="text/javascript" src="/json/receipes.json"></script>
+        <script type="text/javascript" src="/json/ingredients.json"></script>
         
         <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
@@ -13,24 +15,33 @@
         <title>Reseptihaku</title>
     </head>
     <body>
-        <div class="container">
-        <div id="the-basics">
-            <input class="typeahead" type="text" placeholder="Ruoka-aine" id="datainput">
-            <br>
-                <input id="submitbutton" type="submit" value="Add" class="btn">
-                   <!--TODO OK BUTTON WITH AUTO-SUBMIT $('form').submit(function(){ data }); -->
-            <input id="clearbutton" type="submit" value="Clear" class="btn">
+        <div class="container-fluid">
+            <div class="row-fluid">
             
+                
+    <div class="form-group">
+        <div id="the-basics" class="span2">
+            <input class="typeahead form-control" type="text" placeholder="Ruoka-aine" id="datainput">
+          
+                <input id="submitbutton" type="submit" value="Add" class="btn btn-success">
+                   <!--TODO OK BUTTON WITH AUTO-SUBMIT $('form').submit(function(){ data }); -->
+            <input id="clearbutton" type="submit" value="Clear" class="btn btn-danger">
+        </div>
+                      </div>
+                  
         </div>
         <br>
             <h3>
-        <div id="content"></div>
+        <div id="content" ></div>
                 </h3>
         <br>
+        <div class="span3">
         <h3>Reseptit</h3>
         <br>
         <div id="receipes"></div>
-        <br>
         </div>
+            
+        </div>
+            </div>
     </body>
 </html>

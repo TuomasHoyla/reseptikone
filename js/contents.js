@@ -2,22 +2,12 @@ $(function() {
 
     var haettavatAineet =[];
     
-    var haettavat = ['Peruna', 'Pippuri']
     //TODO: AJAX-back-end query for ruokaAineet & receipes
-    var ruokaAineet = ['Hunaja', 'Kaurahiutale', 'Kauraryyni', 'Ohrajauho', 'Ruisjauho', 'vehnäjauho', 'riisi', 'Sokeri', 'Voi', 'Öljy', 'Suola', 'Pippuri', 'Bulgur', 'Maizena-suuruste', 'Bearnaisekastikejauhe', 'Ahven', 'Anjovis', 'Artisokka', 'Appelsiini', 'Aprikoosi', 'Ananas', 'Avokado', 'Seitan', 'Peruna', 'tofu', 'Kaali', 'Kyssäkaali', 'Keräkaali', 'Kiinankaali', 'Jauheliha', 'Palsternakka', 'Punajuuri'
-    ];
-    
-    //NOTE! CASE-SENSITIVE
-    var receipes = '{ "reseptit" : [' +
-'{ "nimi":"Hedelmä-jälkiruoka" , "ohje":"sekoita keskenään 1" ,"ainekset":["Appelsiini", "Aprikoosi", "Ananas"] },' +
-'{ "nimi":"Perunavuoka" , "ohje":"Voitele vuoka, lisää aineet", "ainekset":["Peruna", "Jauheliha", "maito", "Pippuri"] },' +
-'{ "nimi":"Uunivihannekset" , "ohje":"Laita uuni 200 asteeseen ja laita aineet pellille", "ainekset":["Peruna", "Palsternakka", "punajuuri"] },' +
-'{ "nimi":"Jauhelihakeitto" , "ohje":"Ruskista jauheliha ja sipulit etc", "ainekset":["Jauheliha", "Peruna", "Suola", "Pippuri"] } ]}';
-    
+    //Receipes on /json/ingredients.json
     var obj = $.parseJSON(receipes);
     
     
-function haeAineet(ainesLocationInRuokaAineet) {
+function haeAineet() {
 
     //Tulostaa true vain jos n on h:n osajoukko n = haettavataineet, h = receipes.ainekset
     //True, if set needles is a subset of haystack    
@@ -48,7 +38,6 @@ function haeAineet(ainesLocationInRuokaAineet) {
     **/
     $( "#content" ).empty();
     $(haettavatAineet).each(function ( index ) {
-        //   $( "#content" ).append(haettavatAineet[index]+"<br>");
         $( "#content" ).append('<span class="label label-success">'+haettavatAineet[index]+'</span>');
     });
       
@@ -79,8 +68,6 @@ var substringMatcher = function(strs) {
 };
 
 
-
-
 $('#the-basics .typeahead').typeahead({
     hint: true,
     autoselect: true,
@@ -88,8 +75,8 @@ $('#the-basics .typeahead').typeahead({
     minLength: 1
 },
 {
-  name: 'ruokaAineet',
-  source: substringMatcher(ruokaAineet)
+  name: 'ingredients',
+  source: substringMatcher(ingredients)
 });
     
     /*
@@ -101,27 +88,40 @@ $('#aweberform').submit();
 
 });
 */
-
     
-    $("#submitbutton").click(function(){
+function refresh() {
         //tyhjenna reseptit naytolta
         $( "#receipes" ).empty();
+        
         //hae kayttajan pyytama ruoka-aine
     var addedstate = $('#datainput').val();
         //tarkista että ruoka-aines on ennalta maaritetyssa aines-listassa
-    var ingredientId = $.inArray(addedstate, ruokaAineet);
+    var ingredientId = $.inArray(addedstate, ingredients);
         
     if (ingredientId != -1) {
         //jos ruoka-aines ei ole jo lisatty..
-        if($.inArray(ruokaAineet[ingredientId], haettavatAineet) == -1){
+        if($.inArray(ingredients[ingredientId], haettavatAineet) == -1){
             //lisaa ruoka-aines listaan:
-            haettavatAineet.push(ruokaAineet[ingredientId]);       
+            haettavatAineet.push(ingredients[ingredientId]);       
         }
         //hae reseptit
-        haeAineet(ruokaAineet[ingredientId]);
+        haeAineet();
     }
+    $( "#datainput" ).val('');
+}
     
+    $("#submitbutton").click(function(){
+        refresh();
 });
+    /** remove ingredients by clicking **/
+    $('body').on('click', 'span.label-success', function() {
+        haettavatAineet.splice($.inArray($(this).text() ,haettavatAineet),1);
+        $(this).remove();
+        $( "#receipes" ).empty();
+        haeAineet();
+        //tassa voisi klikattaessa päivittää reseptit poistetun mukaan
+    });
+
     
         
     $("#clearbutton").click(function(){
