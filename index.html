@@ -6,22 +6,31 @@
         <script src="/js/typeahead.bundle.min.js"></script>
         <script src="/js/typeahead.jquery.min.js"></script>
         <script src="/js/contents.js"></script>
+        
+        <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
         <title>Reseptihaku</title>
     </head>
     <body>
-        
+        <div class="container">
         <div id="the-basics">
             <input class="typeahead" type="text" placeholder="Ruoka-aine" id="datainput">
-            
-                <input type="submit" value="Add state" class="btn">
+            <br>
+                <input id="submitbutton" type="submit" value="Add" class="btn">
                    <!--TODO OK BUTTON WITH AUTO-SUBMIT $('form').submit(function(){ data }); -->
+            <input id="clearbutton" type="submit" value="Clear" class="btn">
             
         </div>
         <br>
+            <h3>
         <div id="content"></div>
+                </h3>
         <br>
         <h3>Reseptit</h3>
         <br>
         <div id="receipes"></div>
+        <br>
+        </div>
     </body>
 </html>

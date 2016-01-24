@@ -1,59 +1,60 @@
 $(function() {
 
-    //TODO: AJAX-back-end query for ruokaAineet & receipes
-    var ruokaAineet = ['Hunaja', 'Kaurahiutale', 'Kauraryyni', 'Ohrajauho', 'Ruisjauho', 'vehnäjauho', 'riisi', 'Sokeri', 'Voi', 'Öljy', 'Suola', 'Pippuri', 'Bulgur', 'Maizena-suuruste', 'Bearnaisekastikejauhe', 'Ahven', 'Anjovis', 'Artisokka', 'Appelsiini', 'Aprikoosi', 'Ananas', 'Avokado', 'seitan', 'Peruna', 'tofu', 'Kaali', 'Kyssäkaali', 'Keräkaali', 'Kiinankaali', 'Jauheliha', 'Palsternakka', 'åuhanjuuri'
-    ];
-    
     var haettavatAineet =[];
     
+    var haettavat = ['Peruna', 'Pippuri']
+    //TODO: AJAX-back-end query for ruokaAineet & receipes
+    var ruokaAineet = ['Hunaja', 'Kaurahiutale', 'Kauraryyni', 'Ohrajauho', 'Ruisjauho', 'vehnäjauho', 'riisi', 'Sokeri', 'Voi', 'Öljy', 'Suola', 'Pippuri', 'Bulgur', 'Maizena-suuruste', 'Bearnaisekastikejauhe', 'Ahven', 'Anjovis', 'Artisokka', 'Appelsiini', 'Aprikoosi', 'Ananas', 'Avokado', 'Seitan', 'Peruna', 'tofu', 'Kaali', 'Kyssäkaali', 'Keräkaali', 'Kiinankaali', 'Jauheliha', 'Palsternakka', 'Punajuuri'
+    ];
+    
+    //NOTE! CASE-SENSITIVE
     var receipes = '{ "reseptit" : [' +
-'{ "nimi":"Hedelmä-jälkiruoka" , "ainekset":["Appelsiini", "Aprikoosi", "Ananas"] },' +
-'{ "nimi":"Perunavuoka" , "ainekset":["Peruna", "Jauheliha", "maito"] },' +
-'{ "nimi":"Uunivihannekset" , "ainekset":["Peruna", "Palsternakka", "punajuuri"] },' +
-'{ "nimi":"Jauhelihakeitto" , "ainekset":["Jauheliha", "Peruna", "Suola"] } ]}';
+'{ "nimi":"Hedelmä-jälkiruoka" , "ohje":"sekoita keskenään 1" ,"ainekset":["Appelsiini", "Aprikoosi", "Ananas"] },' +
+'{ "nimi":"Perunavuoka" , "ohje":"Voitele vuoka, lisää aineet", "ainekset":["Peruna", "Jauheliha", "maito", "Pippuri"] },' +
+'{ "nimi":"Uunivihannekset" , "ohje":"Laita uuni 200 asteeseen ja laita aineet pellille", "ainekset":["Peruna", "Palsternakka", "punajuuri"] },' +
+'{ "nimi":"Jauhelihakeitto" , "ohje":"Ruskista jauheliha ja sipulit etc", "ainekset":["Jauheliha", "Peruna", "Suola", "Pippuri"] } ]}';
     
     var obj = $.parseJSON(receipes);
     
     
 function haeAineet(ainesLocationInRuokaAineet) {
-    $(obj.reseptit).each(function( index ) {
-        if (($.inArray(ainesLocationInRuokaAineet, obj.reseptit[index].ainekset)) != -1) {
-            $( "#receipes" ).append(obj.reseptit[index].nimi +"<br>");
+
+    //Tulostaa true vain jos n on h:n osajoukko n = haettavataineet, h = receipes.ainekset
+    //True, if set needles is a subset of haystack    
+    function containsAll(needles, haystack){ 
+        for(var i = 0 , len = needles.length; i < len; i++){
+            if($.inArray(needles[i], haystack) == -1) return false;
         }
-    });
+        return true;
+    }
     
-    
-    var success = array_a.every(function(v,i) {
-        alert(array_b.indexOf(v) !== -1);
-    });
-    alert(success);
-    
-    /**
-    How to check whether multiple values exist within an Javascript array:
-    var success = array_a.every(function(v,i) {
-    return array_b.indexOf(v) !== -1;
-});
-    
-        //alert(ainesLocationInRuokaAineet);
-        /*
-        $.each( arr, function( index, value ){
-            obj.reseptit[0].ainekset
-        });
 
-
-            
-    //    var ingredientId = $.inArray(addedstate, ruokaAineet);
-        /**FOR-loop:
-        lisää lisätty aines haettavataineet[]-arrayhyn, jossa on haettavat ainekset
-        käy reseptit  läpi (FOR-1), jotka pitävät sisällään ensimmäisen entryn aineista, toisen entryn aineista..
-        JOS Resepti pitää sisällään (inArray) ainesosan, palauta reseptin location receipes[]-arrayssa
-        ja hae receipes-arraysta locationilla reseptit.[location].name
-*/
+    /**jos haettavista aineista loytyy yksikin listalta, lisaa se resepteihin
+    Tama kutsu vois olla natimpikin
+    **/
+    
+    $(obj.reseptit).each(function( index ) {
+    if (containsAll(haettavatAineet, obj.reseptit[index].ainekset)) {
+        $( "#receipes" ).append(obj.reseptit[index].nimi+": "+
+                                obj.reseptit[index].ainekset+"<li>"+obj.reseptit[index].ohje
+                                +"</li><br>");
+    }
+    });
+ 
+    
+    
+    /** avaa resepti
+        jos resepti pitää sisällään kaikki haettavat aineet, palauta reseptin nimi
+    **/
+    $( "#content" ).empty();
+    $(haettavatAineet).each(function ( index ) {
+        //   $( "#content" ).append(haettavatAineet[index]+"<br>");
+        $( "#content" ).append('<span class="label label-success">'+haettavatAineet[index]+'</span>');
+    });
+      
     
     }
   
-    
-    
 
 var substringMatcher = function(strs) {
   return function findMatches(q, cb) {
@@ -102,24 +103,32 @@ $('#aweberform').submit();
 */
 
     
-    $(".btn").click(function(){
+    $("#submitbutton").click(function(){
+        //tyhjenna reseptit naytolta
+        $( "#receipes" ).empty();
+        //hae kayttajan pyytama ruoka-aine
     var addedstate = $('#datainput').val();
+        //tarkista että ruoka-aines on ennalta maaritetyssa aines-listassa
     var ingredientId = $.inArray(addedstate, ruokaAineet);
         
     if (ingredientId != -1) {
-        $( "#content" ).append(ruokaAineet[ingredientId]+"<br>"); //Nyt tuplana, parempi ratkaisu olisi että päivittäisi diviä jossa kaikki haetut aineet
-        haettavatAineet.push(ruokaAineet[ingredientId]); 
+        //jos ruoka-aines ei ole jo lisatty..
+        if($.inArray(ruokaAineet[ingredientId], haettavatAineet) == -1){
+            //lisaa ruoka-aines listaan:
+            haettavatAineet.push(ruokaAineet[ingredientId]);       
+        }
+        //hae reseptit
         haeAineet(ruokaAineet[ingredientId]);
     }
-        
-    /**
-    Eli nokkimisjärjestys on tämä:
-        - lisää jokainen lisätty state ingredients[]-listaan
-        tee lista ingredientsien pohjalta (#content)-diviin pilsseinä
-        Hae raaka-aineet 
-    */
-        
     
 });
+    
+        
+    $("#clearbutton").click(function(){
+        $( "#receipes" ).empty();
+        $( "#content" ).empty();
+        haettavatAineet = []; //clear the array
+        
+    });
     
 });
