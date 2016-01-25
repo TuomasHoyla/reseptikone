@@ -1,4 +1,6 @@
-# reseptikone
+# Reseptori 
+#
+Search receipes by adding ingredients
 #
 Use keywords: Peruna-Suola-Pippuri etc to filter
 #
