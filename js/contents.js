@@ -38,7 +38,7 @@ function haeAineet() {
     **/
     $( "#content" ).empty();
     $(haettavatAineet).each(function ( index ) {
-        $( "#content" ).append('<span class="label label-success">'+haettavatAineet[index]+'</span>');
+        $( "#content" ).append('<span class="tag label label-success"><span>'+haettavatAineet[index]+'</span><a><i class="remove glyphicon glyphicon-remove-sign glyphicon-white"></i></a></span>');
     });
       
     
@@ -114,7 +114,7 @@ function refresh() {
         refresh();
 });
     /** remove ingredients by clicking **/
-    $('body').on('click', 'span.label-success', function() {
+    $('body').on('click', 'span.tag', function() {
         haettavatAineet.splice($.inArray($(this).text() ,haettavatAineet),1);
         $(this).remove();
         $( "#receipes" ).empty();
