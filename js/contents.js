@@ -25,9 +25,9 @@ function haeAineet() {
     
     $(obj.reseptit).each(function( index ) {
     if (containsAll(haettavatAineet, obj.reseptit[index].ainekset)) {
-        $( "#receipes" ).append(obj.reseptit[index].nimi+": "+
+        $( "#receipes" ).append("<h4>"+obj.reseptit[index].nimi+"</h4>"+
                                 obj.reseptit[index].ainekset+"<li>"+obj.reseptit[index].ohje
-                                +"</li><br>");
+                                +"</li>");
     }
     });
  

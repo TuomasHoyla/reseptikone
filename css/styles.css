@@ -78,6 +78,21 @@ p + p {
   margin: 50px 0;
 }
 */
+.label {
+    margin: 2px;
+}
+
+@media (min-width: 768px ) {
+  .row {
+      position: relative;
+  }
+
+  .bottom-align-text {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+  }
+}
 
 
 .tt-query,
